@@ -25,7 +25,7 @@ public class Day3 extends Day {
             log += "- Largest twelve digit number in line \"" + line + "\" is: " + largestNumber + "\n";
             sum += Long.parseLong(largestNumber);
         }
-        
+        resultInfo = "Sum of largest twelve digit numbers in each line: " + sum;
     }
 
     private int findLargestTwoDigit(String input){

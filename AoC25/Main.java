@@ -10,7 +10,7 @@ public class Main {
     public static final String RESET = "\033[0m";
     private static Map<Integer, Day[]> days = new HashMap<>();
     public static void main(String[] args) {
-        int totalDays = UserPrompter.getUserTotalDays();
+        int totalDays = 3;
         if (totalDays == -1) {
             return;
         }
