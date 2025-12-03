@@ -37,5 +37,5 @@ That’s it — the solution for that day will start.
 
 ---
 
-Each day is fully self-contained, so you can run any of them independently.
+Each year is fully self-contained, so you can run any of them independently.
 
