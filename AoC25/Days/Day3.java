@@ -16,6 +16,7 @@ public class Day3 extends Day {
         for(String line: this.lines){
             sum += findLargestTwoDigit(line);
         }
+        resultInfo = "Sum of largest two digit numbers in each line: " + sum;
     }
 
     private void proccessLinesPartTwo(){
@@ -24,6 +25,7 @@ public class Day3 extends Day {
             log += "- Largest twelve digit number in line \"" + line + "\" is: " + largestNumber + "\n";
             sum += Long.parseLong(largestNumber);
         }
+        
     }
 
     private int findLargestTwoDigit(String input){
@@ -67,10 +69,4 @@ public class Day3 extends Day {
 
         return output;
     }
-
-    @Override
-    public String resultInfo() {
-        return "The sum of the largest two digit numbers in each line is: " + sum;
-    }
-    
 }

@@ -1,0 +1,11 @@
+:; # --- POSIX (macOS/Linux) section ---
+:; JAR="app.jar"
+:; echo "Running $JAR ..."
+:; exec java -jar "$JAR"
+:; exit 0
+
+:: --- Windows CMD section ---
+@echo off
+set JAR=app.jar
+echo Running %JAR% ...
+java -jar "%JAR%"

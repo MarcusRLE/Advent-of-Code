@@ -6,13 +6,16 @@ public abstract class Day {
     protected List<String> lines;
     protected Boolean isSolved = false;
     protected String log = "";
+    protected String resultInfo;
 
     protected Day(String filename) {
         this.lines = Reader.readLines(filename);
     }
 
     protected abstract void followInstructions();
-    abstract public String resultInfo();
+    public String resultInfo(){
+        return resultInfo;
+    }
     
     public Boolean isSolved() {
         return isSolved;
