@@ -6,12 +6,9 @@ import java.util.Set;
 public class Day4 extends Day{
     Node[][] nodes;
     HashMap<Integer[], Node> rolls = new HashMap<>();
-    int totalRolls = 0;
-    int invalidRolls = 0;
     int totalRemoved = 0;
-    final char validRollChar = 'x';
-    final char invalidRollChar = '@';
-    int iterations = 1;
+    final char ROLLCHAR = '@';
+    final int MAXNEIGHBOURS = 3;
 
 
     public Day4(String filename) {
@@ -29,14 +26,17 @@ public class Day4 extends Day{
         log += "\n";
         fillGrid();
         partTwoInst();
+
+        log += "Final grid:\n";
+        logGrid();
     }
 
-    private Boolean removeRolls(){
+    private Boolean removeRolls(Boolean removeOneBatch){
         Boolean removedAny = false;
         HashMap<Integer[], Node> rollsCopy = new HashMap<>(rolls);
         for (Node roll : rolls.values()){
             if(roll.isRemovable){
-                roll.imOut();
+                roll.imOut(removeOneBatch);
                 totalRemoved++;
                 rollsCopy.remove(roll.position);
                 removedAny = true;
@@ -47,15 +47,11 @@ public class Day4 extends Day{
     }
 
     private void partOneInst(){
-        removeRolls();
-        logGrid();
+        removeRolls(true);
     }
 
     private void partTwoInst(){
-        Boolean breakLoop = true;
-        while (breakLoop){
-            breakLoop = removeRolls();
-        }
+        while (removeRolls(false));
     }
 
     private void logGrid(){
@@ -115,26 +111,26 @@ public class Day4 extends Day{
         }
     }
 
+    @Override
+    protected String logResults() {
+        return "Total rolls removed: " + totalRemoved + ".";
+    }
+
     protected Boolean isRoll(char c){
-        return c == invalidRollChar || c == validRollChar;
+        return c == ROLLCHAR;
     }
     
     class Node {
         char c;
         Set<Node> rollNeighbours = new java.util.HashSet<>();
         Integer[] position;
-        Boolean isRemovable;
-        Boolean isValidRoll;
+        Boolean isRemovable = false;
 
         public Node(Integer[] position, char c) {
             if(isRoll(c)){
-                isValidRoll = true;
-                c = validRollChar;
                 rolls.put(position, this);
-            } else {
-                isValidRoll = false;
-            }
-            isRemovable = true;
+                isRemovable = true;
+            } 
             this.position = position;
             this.c = c;
         }
@@ -150,48 +146,28 @@ public class Day4 extends Day{
             if (viceVersa){
                 neighbour.proposeNeighbour(this, false);
             }
-            if (rollNeighbours.size() >= 4 && isValidRoll){
-                isValidRoll = false;
+            if (rollNeighbours.size() > MAXNEIGHBOURS){
                 isRemovable = false;
-                c = invalidRollChar;
             }
         }
 
-        public Boolean reset(){
-            Boolean stillValid = false;
-            if(c == validRollChar){
-                c = '.';
-                isValidRoll = false;
-                stillValid = true;
-            } else if (c == invalidRollChar){
-                c = validRollChar;
-                isValidRoll = true;
-            }
-            rollNeighbours = new java.util.HashSet<>();
-            return stillValid;
-        }
-
-        public void removeNeighbour(Node neighbour) {
+        private void removeNeighbour(Node neighbour, Boolean removeOneBatch) {
             this.rollNeighbours.remove(neighbour);
-            if (rollNeighbours.size() < 4 && !isValidRoll){
+            if (rollNeighbours.size() <= MAXNEIGHBOURS && !removeOneBatch){
                 isRemovable = true;
-                isValidRoll = true;
-                c = validRollChar;
             }
         }
 
-        public void imOut(){
+        public void imOut(Boolean removeOneBatch){
             for (Node neighbour : rollNeighbours){
-                neighbour.removeNeighbour(this);
+                neighbour.removeNeighbour(this, removeOneBatch);
             }
             c = '.';
+            char[] line = lines.get(position[0]).toCharArray();
+            line[position[1]] = c;
+            lines.set(position[0], new String(line));
         }
 
-    }
-
-    @Override
-    protected String logResults() {
-        return "Total rolls removed: " + totalRemoved + ".";
     }
 
 }
