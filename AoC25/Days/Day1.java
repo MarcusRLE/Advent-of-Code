@@ -52,8 +52,9 @@ public class Day1 extends Day {
         }
 
     }
-
-    public String resultInfo(){
+    
+    @Override
+    protected String logResults() {
         return "The dial points at 0 a total of " + count + " times.";
     }
 }

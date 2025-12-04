@@ -54,11 +54,6 @@ public class Day2 extends Day {
         }
     }
 
-    @Override
-    public String resultInfo(){
-        return "Total ranges processed: " + ranges.size() + ". Sum of all invalid IDs: " + sum + ".\n";
-    }
-
     private class Range {
         String start;
         Long end;
@@ -168,6 +163,11 @@ public class Day2 extends Day {
             }
             return isQuotient;
         }
+    }
+
+    @Override
+    protected String logResults() {
+        return "Total ranges processed: " + ranges.size() + ". Sum of all invalid IDs: " + sum + ".\n";
     }
     
 }

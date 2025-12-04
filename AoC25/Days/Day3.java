@@ -69,4 +69,9 @@ public class Day3 extends Day {
 
         return output;
     }
+
+    @Override
+    protected String logResults() {
+        return "Sum of largest twelve digit numbers in each line: " + sum;
+    }
 }
