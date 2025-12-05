@@ -2,11 +2,18 @@ package Days;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Day5 extends Day {
     List<Long> freshIngredients = new ArrayList<>();
     List<Range> ingredientRanges = new ArrayList<>();
     Long totalIngredients = 0L;
+    Comparator<Range> rangeComparator = new Comparator<Range>() {
+        @Override
+        public int compare(Range o1, Range o2) {
+            return o1.compareTo(o2);
+        }   
+    };
 
     public Day5(String filename) {
         super(filename);
@@ -56,13 +63,13 @@ public class Day5 extends Day {
                 log += "--- WARNING: Negative range detected: " + range.toString() + "---\n";
             }
             totalIngredients += diff;
-            log += "- Range: " + range.toString() + " with " + diff + "fresh ingredients\n";
+            log += "- Range: " + range.toString() + " with " + diff + " fresh ingredients\n";
         }
         log += "Total seperate ranges: " + ingredientRanges.size() + "\n";
     }
 
     private Boolean mergeSortedRanges(){
-        ingredientRanges.sort(new RangeComparator());
+        ingredientRanges.sort(rangeComparator);
         List<Range> copy = new ArrayList<>(ingredientRanges);
         for (int i = 0; i < ingredientRanges.size(); i++){
             Range current = ingredientRanges.get(i);
@@ -137,7 +144,6 @@ public class Day5 extends Day {
 
     @Override
     protected String logResults() {
-        int count = freshIngredients.size();
         return "Total fresh ingredients: " + totalIngredients + ".";
     }
     
@@ -196,12 +202,5 @@ public class Day5 extends Day {
         OVERLAPSTART,
         OVERLAPEND,
         OVERLAPFULL
-    }
-
-    private class RangeComparator implements java.util.Comparator<Range> {
-        @Override
-        public int compare(Range r1, Range r2) {
-            return r1.compareTo(r2);
-        }
     }
 }
