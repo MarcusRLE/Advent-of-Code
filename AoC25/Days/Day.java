@@ -33,6 +33,7 @@ public abstract class Day {
         isSolved = true;
         float endTime = System.currentTimeMillis();
         resultInfo += logResults();
+        log += "StartTime: " + startTime + "\nEndTime: " + endTime;
         log += "\n------\nSolved in " + (endTime - startTime) + " milliseconds.\n";
     }
 }
